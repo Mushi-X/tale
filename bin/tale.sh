@@ -9,14 +9,16 @@
 # Usage: sh tale.sh reload 10
 # Usage: sh tale.sh log
 
+tale_home=/mushi/tale-sqlite
 env_args="-Xms128m -Xmx128m"
 sleeptime=0
 arglen=$#
 
 # get tale pid
 get_pid(){
-    pname="`find .. -name 'tale*.jar'`"
-    pname=${pname:3}
+    pname="`find $tale_home -name 'tale*.jar'`"
+    # pname=${pname:3}
+    pname=${pname##*/}
     pid=`ps -ef | grep $pname | grep -v grep | awk '{print $2}'`
     echo "$pid"
 }
@@ -27,7 +29,7 @@ startup(){
     then
         echo "Tale already startup!"
     else
-        jar_path=`find .. -name 'tale*.jar'`
+        jar_path=`find $tale_home -name 'tale*.jar'`
         echo "jarfile=$jar_path"
         cmd="java $1 -jar $jar_path > ./tale.out < /dev/null &"
         echo "cmd: $cmd"
@@ -83,7 +85,8 @@ else
             shut_down
             ;;
         "reload")
-            echo "reload"
+            shut_down
+            startup "$env_args"
             ;;
         "status")
             show_status

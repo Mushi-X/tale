@@ -275,7 +275,7 @@ public class IndexController extends BaseController {
         try {
             // sh tale.sh reload 10
             String webHome = new File(AttachController.CLASSPATH).getParent();
-            String cmd = "sh " + webHome + "/bin tale.sh reload " + sleep;
+            String cmd = "sh " + webHome + "/bin/tale.sh reload ";
             LOGGER.info("execute shell: {}", cmd);
             ShellUtils.shell(cmd);
             logService.save(LogActions.RELOAD_SYS, "", request.address(), this.getUid());
